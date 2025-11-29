@@ -34,6 +34,11 @@ function passwordsMatch(group: AbstractControl): ValidationErrors | null {
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })
+/**
+ * Página de registro de usuarios.
+ * Permite crear una cuenta nueva ingresando nombre, correo
+ * y contraseña, aplicando validaciones básicas en el formulario.
+ */
 export class Register {
   form: FormGroup;
   serverMsg = '';
@@ -53,7 +58,10 @@ export class Register {
       }, { validators: passwordsMatch })
     });
   }
-
+/**
+   * Envía el formulario de registro y, si el alta es exitosa,
+   * redirige a la página de inicio de sesión.
+   */
   submit(): void {
     this.serverMsg = '';
     this.successMsg = '';

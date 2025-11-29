@@ -11,8 +11,15 @@ import { ProductCard } from '../../shared/product-card/product-card';
   templateUrl: './catalog.html',
   styleUrl: './catalog.scss',
 })
+/**
+ * Página principal de catálogo de videojuegos.
+ * Muestra el listado de productos disponibles, permite buscar
+ * por título/descripción y acceder al detalle o al carrito.
+ */
 export class Catalog implements OnInit {
-
+/**
+   * Lista de productos visibles en el catálogo (aplicando filtros).
+   */
   products: Product[] = [];
   searchTerm: string = '';
 

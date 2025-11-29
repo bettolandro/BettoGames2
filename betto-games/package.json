@@ -7,6 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "compodoc:build": "compodoc -p tsconfig.app.json -d docs",
+    "compodoc": "compodoc -p tsconfig.app.json -d docs -s",
     "serve:ssr:betto-games": "node dist/betto-games/server/server.mjs"
   },
   "prettier": {

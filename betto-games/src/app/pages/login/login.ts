@@ -10,6 +10,11 @@ import { Router } from '@angular/router';
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
+/**
+ * Página de inicio de sesión de BettoGames.
+ * Permite al usuario ingresar su correo y contraseña para
+ * acceder a las funcionalidades protegidas de la tienda.
+ */
 export class Login {
   form: FormGroup;
   errorMsg = '';
@@ -24,7 +29,11 @@ export class Login {
       pass: ['', [Validators.required]]
     });
   }
-
+/**
+   * Envía el formulario de inicio de sesión.
+   * Si las credenciales son válidas, redirige al catálogo;
+   * en caso contrario muestra un mensaje de error.
+   */
   submit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();

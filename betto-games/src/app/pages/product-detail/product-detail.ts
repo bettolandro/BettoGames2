@@ -12,6 +12,11 @@ import { CartService } from '../../core/services/cart';
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.scss',
 })
+/**
+ * Página de detalle de producto.
+ * Muestra información completa de un videojuego específico,
+ * incluyendo descripción extendida y controles para agregarlo al carrito.
+ */
 export class ProductDetail  implements OnInit, OnDestroy {
 
   product?: Product;
@@ -22,7 +27,12 @@ export class ProductDetail  implements OnInit, OnDestroy {
     private productService: ProductService,
     private cart: CartService
   ) {}
-
+/**
+   * Carga la información del producto a partir del identificador
+   * recibido en la ruta.
+   *
+   * @param id Identificador del producto.
+   */
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     this.sub = this.productService.productsChanges()
@@ -34,7 +44,9 @@ export class ProductDetail  implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }
-
+ /**
+   * Agrega el producto actual al carrito.
+   */
   addToCart(): void {
     if (!this.product) return;
     this.cart.add(this.product.id);

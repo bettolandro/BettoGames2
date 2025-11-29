@@ -11,6 +11,11 @@ import { ToastService } from '../../core/services/toast.service';
   templateUrl: './edit-profile.html',
   styleUrl: './edit-profile.scss',
 })
+/**
+ * Página para editar los datos básicos del perfil del usuario.
+ * Permite modificar el nombre y correo asociado a la cuenta,
+ * aplicando validaciones de formulario.
+ */
 export class EditProfile {
 
   form!: FormGroup;
@@ -43,7 +48,10 @@ export class EditProfile {
       ]
     });
   }
-
+ /**
+   * Envía el formulario de edición de perfil y guarda los cambios
+   * en el servicio de autenticación.
+   */
   save(): void {
     if (!this.session) return;
 

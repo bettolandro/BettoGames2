@@ -1,23 +1,26 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { ProductDetail } from './product-detail';
-
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 describe('ProductDetail', () => {
-  let component: ProductDetail;
-  let fixture: ComponentFixture<ProductDetail>;
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProductDetail]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(ProductDetail);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
+      imports: [ProductDetail, RouterTestingModule],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            paramMap: of(new Map([['id', 'game-1']]))
+          }
+        }
+      ]
+    }).compileComponents();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    const fixture = TestBed.createComponent(ProductDetail);
+    const comp = fixture.componentInstance;
+    expect(comp).toBeTruthy();
   });
 });

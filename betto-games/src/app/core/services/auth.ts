@@ -13,6 +13,13 @@ export interface SessionInfo {
 @Injectable({
   providedIn: 'root',
 })
+
+/**
+ * Servicio encargado de la autenticación de usuarios en BettoGames.
+ * Administra el inicio y cierre de sesión, el registro, la actualización
+ * de perfil y el cambio de contraseña utilizando almacenamiento en memoria
+ * y localStorage.
+ */
 export class AuthService {
   private readonly SESSION_KEY = 'session';
   private readonly USERS_KEY = 'users';
@@ -48,6 +55,12 @@ export class AuthService {
     return this.session$.asObservable();
   }
 
+  /**
+   * Devuelve la información de la sesión actual.
+   *
+   * @returns Datos básicos del usuario autenticado,
+   *          o `null` si no hay sesión activa.
+   */
   me(): SessionInfo | null {
     return this.session$.value;
   }
@@ -60,6 +73,13 @@ export class AuthService {
     return this.session$.value?.role === 'admin';
   }
 
+   /**
+   * Intenta autenticar al usuario con correo y contraseña.
+   *
+   * @param email Correo electrónico del usuario.
+   * @param password Contraseña en texto plano.
+   * @returns Resultado de la autenticación, indicando éxito o error.
+   */
   login(email: string, pass: string): { ok: boolean; msg?: string } {
     const users = this.storage.get<User[]>(this.USERS_KEY, []);
     const user = users.find(
@@ -81,11 +101,20 @@ export class AuthService {
     return { ok: true };
   }
 
+   /**
+   * Cierra la sesión actual y limpia los datos de usuario.
+   */
   logout(): void {
     this.storage.set(this.SESSION_KEY, null);
     this.session$.next(null);
   }
 
+  /**
+   * Registra un nuevo usuario en BettoGames.
+   *
+   * @param data Datos de registro del usuario (nombre, correo, contraseña).
+   * @returns Resultado de la operación, indicando éxito o mensaje de error.
+   */
   register(user: Omit<User, 'id' | 'role'> & { role?: 'admin' | 'cliente' }): { ok: boolean; msg?: string } {
     const users = this.storage.get<User[]>(this.USERS_KEY, []);
     if (users.some(u => u.email.toLowerCase() === user.email.toLowerCase())) {
@@ -106,7 +135,12 @@ export class AuthService {
     return { ok: true };
   }
 
-  // ACTUALIZAR PERFIL
+   /**
+   * Actualiza los datos de perfil del usuario (nombre y correo).
+   *
+   * @param userId Identificador del usuario.
+   * @param changes Campos a actualizar en el perfil.
+   */
   updateProfile(id: string, data: Partial<Omit<User, 'id' | 'role'>>): void {
     const users = this.storage.get<User[]>(this.USERS_KEY, []);
     const idx = users.findIndex(u => u.id === id);
@@ -126,7 +160,14 @@ export class AuthService {
     this.storage.set(this.SESSION_KEY, this.session$.value);
   }
 
-  // CAMBIAR CONTRASEÑA
+  /**
+   * Cambia la contraseña del usuario validando la clave actual.
+   *
+   * @param userId  Identificador del usuario.
+   * @param oldPass Contraseña actual.
+   * @param newPass Nueva contraseña que se desea establecer.
+   * @returns Resultado de la operación, con éxito o mensaje de error.
+   */
   changePassword(id: string, oldPass: string, newPass: string): { ok: boolean; msg?: string } {
     const users = this.storage.get<User[]>(this.USERS_KEY, []);
     const idx = users.findIndex(u => u.id === id);

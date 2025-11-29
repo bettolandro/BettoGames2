@@ -11,6 +11,11 @@ import { OrderService } from '../../core/services/order';
   templateUrl: './order-history.html',
   styleUrl: './order-history.scss',
 })
+/**
+ * Página de historial de compras.
+ * Muestra las órdenes generadas por el usuario con fecha, total
+ * y listado de productos asociados.
+ */
 export class OrderHistory  implements OnInit, OnDestroy {
 
   session: SessionInfo | null = null;
@@ -24,7 +29,9 @@ export class OrderHistory  implements OnInit, OnDestroy {
   ) {
     this.session = this.auth.me();
   }
-
+/**
+   * Carga las órdenes del usuario desde el servicio correspondiente.
+   */
   ngOnInit(): void {
     if (!this.session) return;
 

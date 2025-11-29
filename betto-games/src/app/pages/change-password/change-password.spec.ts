@@ -1,23 +1,30 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { ChangePassword } from './change-password';
+import { AuthService } from '../../core/services/auth';
+import { ToastService } from '../../core/services/toast.service';
 
 describe('ChangePassword', () => {
-  let component: ChangePassword;
-  let fixture: ComponentFixture<ChangePassword>;
-
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ChangePassword]
-    })
-    .compileComponents();
+    const authMock = {
+      me: () => ({ id: '1', name: 'Test', email: 'test@test.cl', role: 'user' }),
+      changePassword: () => ({ ok: true })
+    };
 
-    fixture = TestBed.createComponent(ChangePassword);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
+    const toastMock = { show: () => {} };
+
+    await TestBed.configureTestingModule({
+      imports: [ChangePassword, RouterTestingModule],
+      providers: [
+        { provide: AuthService, useValue: authMock },
+        { provide: ToastService, useValue: toastMock }
+      ]
+    }).compileComponents();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    const fixture = TestBed.createComponent(ChangePassword);
+    const comp = fixture.componentInstance;
+    expect(comp).toBeTruthy();
   });
 });

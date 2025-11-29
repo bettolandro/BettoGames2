@@ -6,6 +6,11 @@ import { Product } from '../../models/product';
 @Injectable({
   providedIn: 'root',
 })
+/**
+ * Servicio responsable de gestionar el catálogo de videojuegos.
+ * Entrega la lista de productos, permite buscarlos por id y aplica
+ * filtros o búsquedas según el título o la descripción.
+ */
 export class ProductService {
   private readonly PRODUCTS_KEY = 'products';
   private products$ = new BehaviorSubject<Product[]>([]);

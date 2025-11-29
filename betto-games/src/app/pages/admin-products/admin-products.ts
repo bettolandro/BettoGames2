@@ -12,6 +12,11 @@ import { Router } from '@angular/router';
   templateUrl: './admin-products.html',
   styleUrl: './admin-products.scss',
 })
+/**
+ * Página de administración de productos.
+ * Permite a usuarios con rol administrativo crear, editar y eliminar
+ * videojuegos del catálogo de BettoGames.
+ */
 export class AdminProducts implements OnInit {
 
   products: Product[] = [];
@@ -33,7 +38,9 @@ export class AdminProducts implements OnInit {
       desc: ['', [Validators.required]]
     });
   }
-
+/**
+   * Carga la lista de productos para su administración.
+   */
   ngOnInit(): void {
     if (!this.auth.isAdmin()) {
       this.router.navigateByUrl('/');
@@ -63,7 +70,11 @@ export class AdminProducts implements OnInit {
     this.editingId = product.id;
     this.form.patchValue(product);
   }
-
+ /**
+   * Elimina un producto del catálogo.
+   *
+   * @param productId Identificador del producto a eliminar.
+   */
   delete(product: Product): void {
     if (!confirm(`¿Eliminar el producto "${product.title}"?`)) return;
     this.productService.remove(product.id);

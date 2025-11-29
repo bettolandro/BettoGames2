@@ -11,6 +11,11 @@ import { ToastService } from '../../core/services/toast.service';
   templateUrl: './change-password.html',
   styleUrl: './change-password.scss',
 })
+/**
+ * Página para cambiar la contraseña de la cuenta.
+ * Solicita la contraseña actual y la nueva contraseña, validando
+ * coincidencia y longitud mínima antes de aplicar los cambios.
+ */
 export class ChangePassword {
 
   form!: FormGroup;
@@ -37,7 +42,11 @@ export class ChangePassword {
       confirmPass: ['', Validators.required]
     });
   }
-
+ /**
+   * Envía el formulario de cambio de contraseña.
+   * Si la contraseña actual es correcta, actualiza la clave y
+   * muestra un mensaje de confirmación.
+   */
   save(): void {
     this.error = '';
     this.message = '';

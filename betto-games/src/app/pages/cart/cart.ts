@@ -14,6 +14,11 @@ import { OrderService } from '../../core/services/order';
   templateUrl: './cart.html',
   styleUrl: './cart.scss',
 })
+/**
+ * Página que muestra el carrito de compras del usuario.
+ * Permite revisar los productos agregados, modificar cantidades
+ * y proceder al pago generando una orden.
+ */
 export class Cart implements OnInit, OnDestroy {
 
   items: CartItemDetail[] = [];
@@ -60,7 +65,11 @@ export class Cart implements OnInit, OnDestroy {
   dec(item: CartItemDetail): void {
     this.cartService.decrement(item.productId);
   }
-
+/**
+   * Elimina un producto específico del carrito.
+   *
+   * @param productId Identificador del producto a eliminar.
+   */
   remove(item: CartItemDetail): void {
     this.cartService.remove(item.productId);
   }
@@ -68,7 +77,9 @@ export class Cart implements OnInit, OnDestroy {
   clear(): void {
     this.cartService.clear();
   }
-
+/**
+   * Confirma la compra actual y genera una orden en el historial.
+   */
   checkout(): void {
     this.msg = '';
 
