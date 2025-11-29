@@ -1,0 +1,74 @@
+<main class="container py-5" style="max-width:520px">
+  <div class="text-center mb-4">
+    <img src="assets/img/logoBettoGames.png" alt="BettoGames" class="login-logo mb-3">
+    <h2 class="fw-bold">Crear cuenta</h2>
+    <p class="text-muted mb-0">
+      Registra un usuario para comprar en BettoGames.
+    </p>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <!-- Nombre -->
+    <div class="mb-3">
+      <label class="form-label">Nombre completo</label>
+      <input type="text" class="form-control" formControlName="name">
+      <div class="text-danger small" *ngIf="name?.touched && name?.invalid">
+        El nombre es obligatorio.
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="mb-3">
+      <label class="form-label">Correo electrónico</label>
+      <input type="email" class="form-control" formControlName="email">
+      <div class="text-danger small" *ngIf="email?.touched && email?.invalid">
+        Debes ingresar un correo válido.
+      </div>
+    </div>
+
+    <!-- Contraseñas -->
+    <div formGroupName="passwordGroup" class="mb-3">
+      <label class="form-label">Contraseña</label>
+      <input type="password" class="form-control" formControlName="pass">
+      <div class="form-text">
+        8–16 caracteres, con mayúscula, minúscula, número y símbolo.
+      </div>
+
+      <ul class="small text-muted mt-2 mb-0">
+        <li [class.text-success]="!(pass?.errors?.['minLength'])">Mínimo 8 caracteres</li>
+        <li [class.text-success]="!(pass?.errors?.['maxLength'])">Máximo 16 caracteres</li>
+        <li [class.text-success]="!(pass?.errors?.['uppercase'])">Al menos una mayúscula</li>
+        <li [class.text-success]="!(pass?.errors?.['lowercase'])">Al menos una minúscula</li>
+        <li [class.text-success]="!(pass?.errors?.['number'])">Al menos un número</li>
+        <li [class.text-success]="!(pass?.errors?.['special'])">Al menos un símbolo</li>
+      </ul>
+
+      <div class="mt-3">
+        <label class="form-label">Confirmar contraseña</label>
+        <input type="password" class="form-control" formControlName="confirmPass">
+      </div>
+
+      <div class="text-danger small"
+           *ngIf="passwordGroup?.touched && passwordGroup?.errors?.['mismatch']">
+        Las contraseñas no coinciden.
+      </div>
+    </div>
+
+    <!-- Mensajes -->
+    <div class="alert alert-danger py-2" *ngIf="serverMsg">
+      {{ serverMsg }}
+    </div>
+
+    <div class="alert alert-success py-2" *ngIf="successMsg">
+      {{ successMsg }}
+    </div>
+
+    <button class="btn btn-primary w-100" type="submit">
+      Registrarme
+    </button>
+  </form>
+
+  <div class="mt-3 text-center">
+    <a routerLink="/login">¿Ya tienes cuenta? Inicia sesión</a>
+  </div>
+</main>

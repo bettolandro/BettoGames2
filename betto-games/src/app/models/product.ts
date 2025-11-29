@@ -1,0 +1,9 @@
+export interface Product {
+  id: string;
+  title: string;
+  price: number;
+  stock: number;
+  category: string;
+  cover: string;
+  desc: string;
+}

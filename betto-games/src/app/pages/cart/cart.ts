@@ -1,0 +1,93 @@
+import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router,RouterLink } from '@angular/router';
+import { CartItemDetail } from '../../models/cart';
+import { combineLatest, Subscription } from 'rxjs';
+import { CartService } from '../../core/services/cart';
+import { ProductService } from '../../core/services/product';
+import { AuthService } from '../../core/services/auth';
+import { OrderService } from '../../core/services/order';
+
+@Component({
+  selector: 'app-cart',
+  imports: [CommonModule, RouterLink],
+  templateUrl: './cart.html',
+  styleUrl: './cart.scss',
+})
+export class Cart implements OnInit, OnDestroy {
+
+  items: CartItemDetail[] = [];
+  total = 0;
+  msg = '';
+
+  private sub?: Subscription;
+
+  constructor(
+    private cartService: CartService,
+    private productService: ProductService,
+    private auth: AuthService,
+    private orderService: OrderService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.sub = combineLatest([
+      this.productService.productsChanges(),
+      this.cartService.itemsChanges()
+    ]).subscribe(([products, cartItems]) => {
+      this.items = cartItems
+        .map(ci => {
+          const product = products.find(p => p.id === ci.productId);
+          return product ? { ...ci, product } : undefined;
+        })
+        .filter((x): x is CartItemDetail => !!x);
+
+      this.total = this.items.reduce(
+        (sum, item) => sum + item.product.price * item.quantity,
+        0
+      );
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
+  }
+
+  inc(item: CartItemDetail): void {
+    this.cartService.add(item.productId);
+  }
+
+  dec(item: CartItemDetail): void {
+    this.cartService.decrement(item.productId);
+  }
+
+  remove(item: CartItemDetail): void {
+    this.cartService.remove(item.productId);
+  }
+
+  clear(): void {
+    this.cartService.clear();
+  }
+
+  checkout(): void {
+    this.msg = '';
+    const session = this.auth.me();
+
+    if (!session) {
+      this.msg = 'Debes iniciar sesión antes de finalizar la compra.';
+      this.router.navigateByUrl('/login');
+      return;
+    }
+
+    if (this.items.length === 0) {
+      this.msg = 'Tu carrito está vacío.';
+      return;
+    }
+
+    // Crear orden y limpiar carrito
+    this.orderService.createOrder(session.id, this.items);
+    this.cartService.clear();
+    this.msg = 'Compra realizada con éxito. Puedes revisar tu historial de compras.';
+    this.router.navigateByUrl('/orders');
+  }
+}

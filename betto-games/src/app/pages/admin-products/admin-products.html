@@ -1,0 +1,96 @@
+<main class="container py-5">
+  <h2 class="fw-bold mb-3">Administración de productos</h2>
+
+  <div class="row g-4">
+    <div class="col-lg-4">
+      <div class="card bg-dark border-light-subtle">
+        <div class="card-body">
+          <h5 class="card-title mb-3">
+            {{ isEditing ? 'Editar producto' : 'Nuevo producto' }}
+          </h5>
+
+          <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+            <div class="mb-2">
+              <label class="form-label">Título</label>
+              <input class="form-control" formControlName="title">
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label">Precio</label>
+              <input type="number" class="form-control" formControlName="price">
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label">Stock</label>
+              <input type="number" class="form-control" formControlName="stock">
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label">Categoría</label>
+              <input class="form-control" formControlName="category">
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label">Portada (ruta en assets)</label>
+              <input class="form-control"
+                     formControlName="cover"
+                     placeholder="assets/img/mi-juego.jpg">
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label">Descripción</label>
+              <textarea rows="3" class="form-control" formControlName="desc"></textarea>
+            </div>
+
+            <div class="d-flex justify-content-between mt-3">
+              <button class="btn btn-primary" type="submit">
+                {{ isEditing ? 'Guardar cambios' : 'Crear producto' }}
+              </button>
+              <button class="btn btn-secondary" type="button" (click)="cancel()">
+                Limpiar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="table-responsive">
+        <table class="table table-dark table-striped align-middle">
+          <thead>
+            <tr>
+              <th>Juego</th>
+              <th>Categoría</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th class="text-end">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of products">
+              <td>{{ p.title }}</td>
+              <td>{{ p.category }}</td>
+              <td>${{ p.price | number:'1.0-0' }}</td>
+              <td>{{ p.stock }}</td>
+              <td class="text-end">
+                <button class="btn btn-sm btn-outline-light me-2" (click)="edit(p)">
+                  Editar
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="delete(p)">
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+
+            <tr *ngIf="products.length === 0">
+              <td colspan="5" class="text-center text-muted">
+                No hay productos registrados todavía.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>

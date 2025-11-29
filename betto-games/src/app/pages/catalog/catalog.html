@@ -1,0 +1,24 @@
+<header class="py-4 border-bottom border-light-subtle bg-dark">
+  <div class="container">
+    <h1 class="h3 fw-bold mb-2">Catálogo de Videojuegos</h1>
+    <p class="text-muted mb-3">
+      Explora los juegos y añade tus favoritos al carrito.
+    </p>
+
+    <div class="row g-2">
+      <div class="col-md-4">
+        <input class="form-control"
+               placeholder="Buscar por título o descripción"
+               [(ngModel)]="searchTerm">
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container py-4">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
+    <div class="col" *ngFor="let p of filteredProducts">
+      <app-product-card [product]="p"></app-product-card>
+    </div>
+  </div>
+</main>

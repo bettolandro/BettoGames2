@@ -1,0 +1,44 @@
+<main class="container py-5" *ngIf="session; else notLogged">
+  <h2 class="fw-bold mb-3">Historial de compras</h2>
+
+  <div *ngIf="orders.length === 0" class="alert alert-secondary">
+    Aún no tienes compras registradas.
+  </div>
+
+  <div *ngIf="orders.length > 0" class="table-responsive">
+    <table class="table table-dark table-striped align-middle">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Productos</th>
+          <th class="text-end">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let o of orders">
+          <td>{{ o.createdAt | date:'short' }}</td>
+          <td>
+            <ul class="mb-0 small">
+              <li *ngFor="let item of o.items">
+                {{ item.product.title }} (x{{ item.quantity }})
+              </li>
+            </ul>
+          </td>
+          <td class="text-end">
+            ${{ o.total | number:'1.0-0' }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<ng-template #notLogged>
+  <main class="container py-5 text-center">
+    <h2 class="fw-bold mb-3">Historial de compras</h2>
+    <p class="mb-3">
+      Debes iniciar sesión para ver tu historial.
+    </p>
+    <a routerLink="/login" class="btn btn-primary">Iniciar sesión</a>
+  </main>
+</ng-template>

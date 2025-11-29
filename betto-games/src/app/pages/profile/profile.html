@@ -1,0 +1,34 @@
+<main class="container py-5" *ngIf="session; else noSession">
+  <h2 class="fw-bold mb-3">Mi perfil</h2>
+
+  <div class="card bg-dark border-light-subtle">
+    <div class="card-body">
+      <dl class="row mb-0">
+        <dt class="col-sm-3">Nombre</dt>
+        <dd class="col-sm-9">{{ session.name }}</dd>
+
+        <dt class="col-sm-3">Correo</dt>
+        <dd class="col-sm-9">{{ session.email }}</dd>
+
+        <dt class="col-sm-3">Rol</dt>
+        <dd class="col-sm-9">
+          <span class="badge bg-info text-dark text-uppercase">
+            {{ session.role }}
+          </span>
+        </dd>
+      </dl>
+    </div>
+  </div>
+
+  
+</main>
+
+<ng-template #noSession>
+  <main class="container py-5 text-center">
+    <h2 class="fw-bold mb-3">Perfil</h2>
+    <p class="mb-3">
+      Debes iniciar sesión para ver tu perfil.
+    </p>
+    <a routerLink="/login" class="btn btn-primary">Ir a iniciar sesión</a>
+  </main>
+</ng-template>
