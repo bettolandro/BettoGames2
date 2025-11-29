@@ -1,0 +1,34 @@
+<main class="container py-5" style="max-width:480px">
+  <h2 class="fw-bold mb-4">Modificar perfil</h2>
+
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <div class="mb-3">
+      <label class="form-label">Nombre</label>
+      <input class="form-control" formControlName="name">
+      <div class="text-danger small" *ngIf="nameCtrl?.touched && nameCtrl?.invalid">
+        El nombre es obligatorio.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Correo electrónico</label>
+      <input class="form-control" formControlName="email">
+      <div class="text-danger small" *ngIf="emailCtrl?.touched && emailCtrl?.invalid">
+        Debe ser un correo válido.
+      </div>
+    </div>
+
+    <button class="btn btn-primary w-100" type="submit">
+      Guardar cambios
+    </button>
+
+    <!-- Mensaje de éxito -->
+    <div class="alert alert-success mt-3" *ngIf="message">
+      {{ message }}
+    </div>
+  </form>
+
+  <div class="text-center mt-4">
+    <a routerLink="/profile">Volver al perfil</a>
+  </div>
+</main>

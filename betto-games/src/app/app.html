@@ -7,13 +7,22 @@
 <!-- * * * * * * * to get started with your project! * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-<app-navbar></app-navbar>
+<div class="app-wrapper d-flex flex-column min-vh-100">
 
-<main class="app-main">
-  <router-outlet></router-outlet>
-</main>
+  <!-- Navbar arriba -->
+  <app-navbar></app-navbar>
 
-<app-footer></app-footer>
+  <!-- Contenido que crece -->
+  <main class="flex-grow-1">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Footer abajo siempre -->
+  <app-footer></app-footer>
+  <!-- Toast global
+  <app-toast></app-toast> -->
+
+</div>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * The content above * * * * * * * * * * * * -->

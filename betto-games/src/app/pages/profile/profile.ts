@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService, SessionInfo } from '../../core/services/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -8,10 +9,28 @@ import { AuthService, SessionInfo } from '../../core/services/auth';
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })
-export class Profile {
-session: SessionInfo | null;
+export class Profile implements OnInit {
 
-  constructor(private auth: AuthService) {
+  session: SessionInfo | null = null;
+
+  constructor(
+    private auth: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
     this.session = this.auth.me();
+  }
+
+  goToEdit(): void {
+    this.router.navigateByUrl('/edit-profile');
+  }
+
+  goToChangePass(): void {
+    this.router.navigateByUrl('/change-password');
+  }
+
+  goToLogin(): void {
+    this.router.navigateByUrl('/login');
   }
 }

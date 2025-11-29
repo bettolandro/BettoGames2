@@ -1,0 +1,21 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #071A35;
+}
+
+.app-wrapper {
+  background: #071A35;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+app-footer {
+  flex-shrink: 0;
+}

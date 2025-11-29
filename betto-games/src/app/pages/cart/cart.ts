@@ -24,7 +24,7 @@ export class Cart implements OnInit, OnDestroy {
 
   constructor(
     private cartService: CartService,
-    private productService: ProductService,
+    private productService: ProductService,   // 👈 para actualizar stock
     private auth: AuthService,
     private orderService: OrderService,
     private router: Router
@@ -71,8 +71,8 @@ export class Cart implements OnInit, OnDestroy {
 
   checkout(): void {
     this.msg = '';
-    const session = this.auth.me();
 
+    const session = this.auth.me();
     if (!session) {
       this.msg = 'Debes iniciar sesión antes de finalizar la compra.';
       this.router.navigateByUrl('/login');
@@ -84,10 +84,27 @@ export class Cart implements OnInit, OnDestroy {
       return;
     }
 
-    // Crear orden y limpiar carrito
+    // 1) Verificar stock suficiente
+    const sinStock = this.items.find(item => item.quantity > item.product.stock);
+    if (sinStock) {
+      this.msg = `No hay stock suficiente de "${sinStock.product.title}".`;
+      return;
+    }
+
+    // 2) Crear la orden
     this.orderService.createOrder(session.id, this.items);
+
+    // 3) Descontar stock de cada producto
+    this.items.forEach(item => {
+      const nuevoStock = Math.max(item.product.stock - item.quantity, 0);
+      this.productService.update(item.product.id, { stock: nuevoStock });
+    });
+
+    // 4) Vaciar carrito
     this.cartService.clear();
-    this.msg = 'Compra realizada con éxito. Puedes revisar tu historial de compras.';
+
+    // 5) Mensaje + redirección
+    this.msg = 'Compra realizada con éxito. El stock fue actualizado.';
     this.router.navigateByUrl('/orders');
   }
 }

@@ -1,16 +1,24 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary border-bottom border-light-subtle">
   <div class="container">
-    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" routerLink="/">
+    <!-- Logo + título -->
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2"
+       (click)="go('/')"
+       style="cursor: pointer;">
       <img src="assets/img/logoBettoGames.png" alt="BettoGames" class="brand-logo">
       BettoGames
     </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+    <!-- Botón hamburguesa -->
+    <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse" data-bs-target="#nav"
+            aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
+    <!-- Menú -->
     <div id="nav" class="collapse navbar-collapse">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- Catálogo -->
         <li class="nav-item">
           <a class="nav-link"
              routerLink="/"
@@ -20,43 +28,60 @@
           </a>
         </li>
 
+        <!-- Admin solo si es admin -->
         <li class="nav-item" *ngIf="session?.role === 'admin'">
-          <a class="nav-link" routerLink="/admin" routerLinkActive="active">
+          <a class="nav-link"
+             routerLink="/admin"
+             routerLinkActive="active">
             Admin
           </a>
         </li>
 
+        <!-- Historial solo logueado -->
         <li class="nav-item" *ngIf="session">
-          <a class="nav-link" routerLink="/orders" routerLinkActive="active">
+          <a class="nav-link"
+             routerLink="/orders"
+             routerLinkActive="active">
             Historial
           </a>
         </li>
       </ul>
 
+      <!-- Zona derecha -->
       <div class="d-flex align-items-center gap-2">
         <span class="chip">
           Usuario:
           <span>{{ session?.name || 'Invitado' }}</span>
         </span>
 
-        <a *ngIf="session" class="btn btn-sm btn-outline-light" routerLink="/profile">
+        <!-- Perfil / Login -->
+        <button *ngIf="session"
+                type="button"
+                class="btn btn-sm btn-outline-light"
+                (click)="go('/profile')">
           Perfil
-        </a>
+        </button>
 
-        <a *ngIf="!session" class="btn btn-sm btn-outline-light" routerLink="/login">
+        <button *ngIf="!session"
+                type="button"
+                class="btn btn-sm btn-outline-light"
+                (click)="go('/login')">
           Iniciar sesión
-        </a>
+        </button>
 
         <button *ngIf="session"
+                type="button"
                 class="btn btn-sm btn-warning"
                 (click)="logout()">
           Cerrar sesión
         </button>
 
-        <a class="btn btn-sm btn-success" routerLink="/cart">
-          🛒 Carrito
-        </a>
+        <!-- Carrito -->
+        <button type="button"
+                class="btn btn-sm btn-success"
+                (click)="go('/cart')">
+          Carrito
+        </button>
       </div>
     </div>
   </div>
-</nav>
